@@ -24,6 +24,7 @@ M.setup = function(options)
 	options = options or {}
 	M.options = vim.tbl_deep_extend("force", defaults, options)
 	M.options.height = #M.options.intro
+	M.options.widht = vim.fn.strdisplaywidth(M.options.intro[1])
 	vim.api.nvim_set_hl(highlight_ns_id, "Minintro", { fg = M.options.color })
 	vim.api.nvim_set_hl_ns(highlight_ns_id)
 
@@ -98,7 +99,7 @@ M.display_minintro = function(payload)
 		"ModeChanged",
 		"WinLeave",
 	}, {
-		group = vim.api.nvim_create_augroup("Minintro-hide", { clear = true }),
+		group = autocmd_group,
 		callback = function()
 			if vim.bo.filetype == "minintro" then
 				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
