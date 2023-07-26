@@ -47,11 +47,15 @@ M.draw_minintro = function(bufnr)
 	end
 
 	local top_space = {}
-	for _ = 1, start_row do table.insert(top_space, "") end
+	for _ = 1, start_row do
+		table.insert(top_space, "")
+	end
 
 	local col_offset_spaces = {}
-	for _ = 1, start_col do table.insert(col_offset_spaces, " ") end
-	local col_offset = table.concat(col_offset_spaces, '')
+	for _ = 1, start_col do
+		table.insert(col_offset_spaces, " ")
+	end
+	local col_offset = table.concat(col_offset_spaces, "")
 
 	local adjusted_logo = {}
 	for _, line in ipairs(M.options.intro) do
@@ -75,7 +79,6 @@ M.create_and_set_minintro_buf = function(default_buff)
 	vim.api.nvim_set_option_value("buftype", "nofile", { buf = intro_buff })
 	vim.api.nvim_set_option_value("filetype", "minintro", { buf = intro_buff })
 	vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
-
 	vim.api.nvim_set_current_buf(intro_buff)
 	vim.api.nvim_buf_delete(default_buff, { force = true })
 
@@ -94,6 +97,8 @@ M.display_minintro = function(payload)
 
 	minintro_buff = M.create_and_set_minintro_buf(default_buff)
 
+	vim.opt_local.number = false
+	vim.opt_local.relativenumber = false
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
