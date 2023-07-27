@@ -103,7 +103,7 @@ M.display_minintro = function(payload)
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
-		"WinLeave",
+		"BufLeave",
 	}, {
 		group = autocmd_group,
 		callback = function()
