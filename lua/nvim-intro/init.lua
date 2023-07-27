@@ -99,7 +99,7 @@ M.display_minintro = function(payload)
 
 	vim.opt_local.number = false
 	vim.opt_local.relativenumber = false
-	M.options.highlights()
+	M.options.callback()
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
