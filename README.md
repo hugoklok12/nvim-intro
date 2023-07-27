@@ -1,22 +1,25 @@
 # minintro.nvim
-Extremely minimalistic intro screen for Neovim
+Replacer for default Intro of neovim
 
 ## Motivation
-Neovim intro screen can be extremely buggy and forced to close automatically by plugins installed such as 
-[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua), 
-[bufferline](https://github.com/akinsho/bufferline.nvim), 
-[lualine](https://github.com/nvim-lualine/lualine.nvim) and many more.  
+Neovim intro screen can be extremely buggy and forced to close automatically by plugins installed such as
+[nvim-tree](https://github.com/nvim-tree/nvim-tree.lua),
+[bufferline](https://github.com/akinsho/bufferline.nvim),
+[lualine](https://github.com/nvim-lualine/lualine.nvim) and many more.
 `minintro.nvim` hijects `no-name` and `directory` buffer and draws a simple intro logo.
-If you just want a simple and lightweight startup intro that works, this plugin is for you.
+I tried to emulate the function of the original Intro as much as I could. If
+you have any improvements feel free to make a pull request.
+also thanks to the [original author](https://github.com/eoh-bse/minintro.nvim)
+for making most of the plugin.
 
 ## Screenshot
-![minintro-screenshot](screenshots/screenshot.png)
+![minintro-screenshot](screenshots/Minintro.png)
 
 ## Installation
 ```lua
 -- Lazy
 {
-    "eoh-bse/minintro.nvim",
+    "Yoolayn/minintro.nvim",
     config = true,
     lazy = false
 }
@@ -25,20 +28,32 @@ If you just want a simple and lightweight startup intro that works, this plugin 
 ```lua
 -- Packer
 use {
-    "eoh-bse/minintro.nvim",
+    "Yoolayn/minintro.nvim",
     config = function() require("minintro").setup() end
 }
 ```
 
 ## Configuration
-There is only one option available for `minintro.nvim` and that is color of the intro logo. There is no need
-to create a separate config file. Pass the config directly in your plugin installation file
+You can customize the intro logo(adding your own will overwrite the default one)
+along with the ability to set the color and starting a scratch buffer instead.
+
+minintro comes with these defaults:
 ```lua
 -- Lazy
 {
-    "eoh-bse/minintro.nvim",
-    opts = { color = "#98c379" }
-    config = true,
+    "Yoolayn/minintro.nvim",
+    opts = {
+        intro = {
+            " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
+            " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
+            " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
+            " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
+            " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
+            " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+        },
+        color = "#98c379",
+        scratch = false,
+    }
     lazy = false
 }
 ```
@@ -46,9 +61,44 @@ to create a separate config file. Pass the config directly in your plugin instal
 ```lua
 -- Packer
 use {
-    "eoh-bse/minintro.nvim",
-    config = function() require("minintro").setup({ color = "#98c379" }) end
+    "Yoolayn/minintro.nvim",
+    config = function() require("minintro").setup({
+        intro = {
+            " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
+            " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
+            " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
+            " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
+            " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
+            " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+        },
+        color = "#98c379",
+        scratch = false,
+    }) end
 }
+```
+
+## Example
+this is my configuration from the screenshot, using lazy.nvim
+```lua
+    return {
+        "Yoolayn/minintro.nvim",
+        config = {
+            intro = {
+                " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
+                " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
+                " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
+                " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
+                " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
+                " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+                "                    [ @Yoolayn ]                       ",
+                "                 :checkhealth -> info                  ",
+                "               :Lazy -> package manager                ",
+                "                                                       ",
+                "                  Have a nice day :)                   ",
+            },
+            scratch = true,
+        },
+    },
 ```
 
 ## Things to be aware of
@@ -60,11 +110,11 @@ require("bufferline").setup({
     options = {
         always_show_bufferline = false
     }
-})
 ```
 The above configuration will effectively set `vim.opt.showtabline` to 2, meaning the tabs will only start to
 display when there is more than one buffer open
 
-## Reference Configuration
-If you want to see a reference neovim configuration, please refer to [this
-nvim-setup](https://github.com/eoh-bse/nvim-setup)
+## Notice
+Minintro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal :)
+})
+
