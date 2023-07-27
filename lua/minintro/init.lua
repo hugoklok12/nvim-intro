@@ -99,6 +99,7 @@ M.display_minintro = function(payload)
 
 	vim.opt_local.number = false
 	vim.opt_local.relativenumber = false
+	M.options.highlights()
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
@@ -107,6 +108,7 @@ M.display_minintro = function(payload)
 		group = autocmd_group,
 		callback = function()
 			if vim.bo.filetype == "minintro" then
+				vim.fn.clearmatches()
 				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
 			end
 		end,
