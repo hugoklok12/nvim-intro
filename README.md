@@ -139,6 +139,5 @@ The above configuration will effectively set `vim.opt.showtabline` to 2, meaning
 display when there is more than one buffer open
 
 ## Notice
-Minintro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal :)
-})
+Minintro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal
 
