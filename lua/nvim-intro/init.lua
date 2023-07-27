@@ -20,6 +20,25 @@ local defaults = {
 
 local M = {}
 
+M.matcher = function()
+	local function clean(inputString)
+		local pattern = "[^%a]+"
+		local resultString = inputString:gsub(pattern, "")
+
+		return resultString .. "_minintro_custom_match_"
+	end
+
+	local ns = vim.api.nvim_create_namespace("CustomMatches")
+	local i = 1
+	for pattern, color in pairs(M.options.highlights) do
+		local name = clean(pattern) .. i
+		i = i + 1
+		vim.api.nvim_set_hl(ns, name, { fg = color })
+		vim.fn.matchadd(name, pattern)
+	end
+	vim.api.nvim_set_hl_ns(ns)
+end
+
 M.setup = function(options)
 	options = options or {}
 	M.options = vim.tbl_deep_extend("force", defaults, options)
@@ -99,7 +118,10 @@ M.display_minintro = function(payload)
 
 	vim.opt_local.number = false
 	vim.opt_local.relativenumber = false
-	M.options.callback()
+	if M.options.callback ~= nil then
+		M.options.callback()
+	end
+	M.matcher()
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
