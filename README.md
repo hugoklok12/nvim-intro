@@ -1,25 +1,25 @@
-# minintro.nvim
-Replacer for default Intro of neovim
+# nvim-intro
+Replacer for default Intro in neovim
 
 ## Motivation
 Neovim intro screen can be extremely buggy and forced to close automatically by plugins installed such as
 [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua),
 [bufferline](https://github.com/akinsho/bufferline.nvim),
 [lualine](https://github.com/nvim-lualine/lualine.nvim) and many more.
-`minintro.nvim` hijects `no-name` and `directory` buffer and draws a simple intro logo.
+`nvim-intro` hijects `no-name` and `directory` buffer and draws a simple intro logo.
 I tried to emulate the function of the original Intro as much as I could. If
 you have any improvements feel free to make a pull request.
 Thanks to the [original author](https://github.com/eoh-bse/minintro.nvim)
 for making most of the plugin.
 
 ## Screenshot
-![minintro-screenshot](screenshots/Minintro.png)
+![minintro-screenshot](screenshots/nvimintro.png)
 
 ## Installation
 ```lua
 -- Lazy
 {
-    "Yoolayn/minintro.nvim",
+    "Yoolayn/nvim-intro",
     config = true,
     lazy = false
 }
@@ -28,8 +28,8 @@ for making most of the plugin.
 ```lua
 -- Packer
 use {
-    "Yoolayn/minintro.nvim",
-    config = function() require("minintro").setup() end
+    "Yoolayn/nvim-intro",
+    config = function() require("nvim-intro").setup() end
 }
 ```
 
@@ -44,7 +44,7 @@ minintro comes with these defaults:
 ```lua
 -- Lazy
 {
-    "Yoolayn/minintro.nvim",
+    "Yoolayn/nvim-intro",
     opts = {
         intro = {
             " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
@@ -67,8 +67,8 @@ minintro comes with these defaults:
 ```lua
 -- Packer
 use {
-    "Yoolayn/minintro.nvim",
-    config = function() require("minintro").setup({
+    "Yoolayn/nvim-intro",
+    config = function() require("nvim-intro").setup({
         intro = {
             " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
             " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
@@ -90,7 +90,7 @@ use {
 this is my configuration from the screenshot, using lazy.nvim
 ```lua
     return {
-        "Yoolayn/minintro.nvim",
+        "Yoolayn/nvim-intro",
         config = {
             intro = {
                 "███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
@@ -139,5 +139,5 @@ The above configuration will effectively set `vim.opt.showtabline` to 2, meaning
 display when there is more than one buffer open
 
 ## Notice
-Minintro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal
+nvim-intro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal
 
