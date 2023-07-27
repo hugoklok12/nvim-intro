@@ -36,6 +36,7 @@ use {
 ## Configuration
 You can customize the intro logo(adding your own will overwrite the default one)
 along with the ability to set the color and starting a scratch buffer instead.
+Please keep all the lines in the intro option the same length, as it may cause unexpected results.
 
 minintro comes with these defaults:
 ```lua
