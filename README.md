@@ -9,7 +9,7 @@ Neovim intro screen can be extremely buggy and forced to close automatically by 
 `minintro.nvim` hijects `no-name` and `directory` buffer and draws a simple intro logo.
 I tried to emulate the function of the original Intro as much as I could. If
 you have any improvements feel free to make a pull request.
-also thanks to the [original author](https://github.com/eoh-bse/minintro.nvim)
+Thanks to the [original author](https://github.com/eoh-bse/minintro.nvim)
 for making most of the plugin.
 
 ## Screenshot
@@ -34,8 +34,10 @@ use {
 ```
 
 ## Configuration
-You can customize the intro logo(adding your own will overwrite the default one)
-along with the ability to set the color and starting a scratch buffer instead.
+You can customize the intro logo(adding your own will overwrite the default one).
+It is possible to change it's color, make a scratch buffer appear at the start
+instead of a regular one and you can set custom highlights using matched to
+highlight parts of the logo.
 Please keep all the lines in the intro option the same length, as it may cause unexpected results.
 
 minintro comes with these defaults:
@@ -54,6 +56,9 @@ minintro comes with these defaults:
         },
         color = "#98c379",
         scratch = false,
+        highlights = function()
+            return false
+        end,
     }
     lazy = false
 }
@@ -74,6 +79,9 @@ use {
         },
         color = "#98c379",
         scratch = false,
+        highlights = function()
+            return false
+        end,
     }) end
 }
 ```
@@ -85,19 +93,34 @@ this is my configuration from the screenshot, using lazy.nvim
         "Yoolayn/minintro.nvim",
         config = {
             intro = {
-                " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
-                " ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
-                " ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
-                " ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
-                " ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
-                " ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
-                "                    [ @Yoolayn ]                       ",
-                "                 :checkhealth -> info                  ",
-                "               :Lazy -> package manager                ",
-                "                                                       ",
-                "                  Have a nice day :)                   ",
+                "███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗",
+                "████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║",
+                "██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║",
+                "██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║",
+                "██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║",
+                "╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝",
+                "                      [ @Yoolayn ]                    ",
+                "                                                      ",
+                "  type :checkhealth<Enter> ->   to optimize Nvim      ",
+                "  type :Lazy<Enter>        ->   to update plugins     ",
+                "  type :help<Enter>        ->   for help              ",
+                "                                                      ",
+                "  type :help news<Enter>   ->   for help              ",
+                "                                                      ",
+                "  press <Space>ff          ->   to find files         ",
+                "  press <Space>fr          ->   to find recent files  ",
+                "  press <Space>gg          ->   to start Neogit       ",
+                "                                                      ",
+                "                   Have a nice day :)                 ",
             },
+            color = "#f7f3f2",
             scratch = true,
+            highlights = function()
+                local ns = vim.api.nvim_create_namespace("EnterMatch")
+                vim.api.nvim_set_hl(ns, "EnterMatch", { fg = "#187df0" })
+                vim.api.nvim_set_hl_ns(ns)
+                vim.fn.matchadd("EnterMatch", "<Enter>")
+            end,
         },
     },
 ```
