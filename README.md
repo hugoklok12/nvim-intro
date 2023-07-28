@@ -21,7 +21,7 @@ for making most of the plugin.
 {
     "Yoolayn/nvim-intro",
     config = true,
-    lazy = false
+    lazy = "VimEnter"
 }
 ```
 
@@ -58,7 +58,7 @@ minintro comes with these defaults:
         color = "#98c379",
         scratch = false,
     }
-    lazy = false
+    lazy = "VimEnter"
 }
 ```
 
@@ -112,7 +112,8 @@ this is my configuration from the screenshot, using lazy.nvim
             scratch = true,
             highlights = {
                 ["<Enter>"] = "#187df0",
-            }
+            },
+        lazy = "VimEnter",
         },
     },
 ```
@@ -131,5 +132,5 @@ The above configuration will effectively set `vim.opt.showtabline` to 2, meaning
 display when there is more than one buffer open
 
 ## Notice
-nvim-intro will throw an error when lazy.nvim starts and updates something, but after a restart should be working as normal
+nvim-intro will throw an error when lazy.nvim starts and updates something, unless you set lazy loading to: lazy = "VimEnter".
 
