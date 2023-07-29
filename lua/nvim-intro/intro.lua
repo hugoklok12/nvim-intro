@@ -147,20 +147,66 @@ M.display_minintro = function(payload)
 	end
 
 	M.matcher()
-	vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged", "BufLeave" }, {
-		group = autocmd_group,
+
+	if M.options.scratch == true then
+		local bufs = vim.api.nvim_list_bufs()
+		for _, buf in ipairs(bufs) do
+			if vim.api.nvim_buf_get_name(buf) == "" then
+				vim.api.nvim_buf_delete(buf, { force = true })
+			end
+		end
+	end
+
+	local intro_autocmd = vim.api.nvim_create_augroup("intro_autocmd", {})
+
+	vim.api.nvim_clear_autocmds({ group = intro_autocmd })
+
+	vim.api.nvim_create_autocmd("BufHidden", {
+		buffer = minintro_buff,
 		once = true,
 		callback = function()
-			vim.fn.clearmatches()
+			vim.api.nvim_clear_autocmds({ group = intro_autocmd })
 		end,
 	})
 
-	vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged", "BufLeave" }, {
-		group = autocmd_group,
+	vim.api.nvim_create_autocmd("CursorMoved", {
+		group = vim.api.nvim_create_augroup("cursor_lock", {}),
+		callback = function()
+			vim.api.nvim_win_set_cursor(intro_win, { 1, 1 })
+		end,
+	})
+
+	vim.api.nvim_create_autocmd({ "BufEnter" }, {
+		group = intro_autocmd,
+		buffer = minintro_buff,
+		callback = function()
+			M.matcher()
+			vim.api.nvim_create_autocmd("CursorMoved", {
+				group = vim.api.nvim_create_augroup("cursor_lock", {}),
+				callback = function()
+					vim.api.nvim_win_set_cursor(intro_win, { 1, 1 })
+				end,
+			})
+		end,
+	})
+
+	vim.api.nvim_create_autocmd({ "BufLeave" }, {
+		group = intro_autocmd,
+		buffer = minintro_buff,
+		callback = function()
+			vim.fn.clearmatches()
+			vim.api.nvim_clear_autocmds({ group = "cursor_lock" })
+		end,
+	})
+
+	vim.api.nvim_create_autocmd({ "TextChangedI", "CmdlineLeave" }, {
+		group = intro_autocmd,
 		buffer = minintro_buff,
 		once = true,
 		callback = function()
 			vim.api.nvim_win_set_buf(intro_win, vim.api.nvim_create_buf(false, M.options.scratch))
+			vim.api.nvim_clear_autocmds({ group = "cursor_lock" })
+			vim.api.nvim_clear_autocmds({ group = intro_autocmd })
 		end,
 	})
 
