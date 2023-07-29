@@ -1,7 +1,6 @@
 local PLUGIN_NAME = "minintro"
 local autocmd_group = vim.api.nvim_create_augroup(PLUGIN_NAME, {})
 local highlight_ns_id = vim.api.nvim_create_namespace(PLUGIN_NAME)
-local minintro_buff = -1
 
 local defaults = {
 	intro = {
@@ -100,14 +99,15 @@ M.create_and_set_minintro_buf = function(default_buff)
 	vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
 	vim.api.nvim_set_current_buf(intro_buff)
 
-	-- HACK: I belive that lazy.nvim deletes the default_buff in the time I try to do it
-	-- so I try to delete a non existant buffer
+	local curr_win
 
-	if default_buff ~= 2 then
+	if vim.api.nvim_buf_is_valid(default_buff) then
 		vim.api.nvim_buf_delete(default_buff, { force = true })
+	else
+		curr_win = vim.api.nvim_get_current_win()
 	end
 
-	return intro_buff
+	return intro_buff, curr_win or nil
 end
 
 M.display_minintro = function(payload)
@@ -120,7 +120,7 @@ M.display_minintro = function(payload)
 		return
 	end
 
-	minintro_buff = M.create_and_set_minintro_buf(default_buff)
+	local minintro_buff, curr_win = M.create_and_set_minintro_buf(default_buff)
 
 	vim.opt_local.number = false
 	vim.opt_local.relativenumber = false
@@ -135,7 +135,11 @@ M.display_minintro = function(payload)
 	}, {
 		group = autocmd_group,
 		callback = function()
-			if vim.bo.filetype == "minintro" then
+			if curr_win ~= nil and vim.bo.filetype == "minintro" then
+				vim.fn.clearmatches()
+				vim.api.nvim_win_close(curr_win, false)
+				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
+			elseif vim.bo.filetype == "minintro" then
 				vim.fn.clearmatches()
 				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
 			end
