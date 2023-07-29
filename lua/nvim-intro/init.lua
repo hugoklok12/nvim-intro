@@ -99,7 +99,13 @@ M.create_and_set_minintro_buf = function(default_buff)
 	vim.api.nvim_set_option_value("filetype", "minintro", { buf = intro_buff })
 	vim.api.nvim_set_option_value("swapfile", false, { buf = intro_buff })
 	vim.api.nvim_set_current_buf(intro_buff)
-	vim.api.nvim_buf_delete(default_buff, { force = true })
+
+	-- HACK: I belive that lazy.nvim deletes the default_buff in the time I try to do it
+	-- so I try to delete a non existant buffer
+
+	if default_buff ~= 2 then
+		vim.api.nvim_buf_delete(default_buff, { force = true })
+	end
 
 	return intro_buff
 end
