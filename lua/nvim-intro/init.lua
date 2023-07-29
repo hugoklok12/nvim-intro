@@ -127,7 +127,9 @@ M.display_minintro = function(payload)
 	if M.options.callback ~= nil then
 		M.options.callback()
 	end
+
 	M.matcher()
+
 	vim.api.nvim_create_autocmd({
 		"CursorMoved",
 		"ModeChanged",
@@ -136,9 +138,23 @@ M.display_minintro = function(payload)
 		group = autocmd_group,
 		callback = function()
 			if curr_win ~= nil and vim.bo.filetype == "minintro" then
+				-- HACK: this won't work if more than 2 windows appear
+				-- in short: works on my machine :)
+				-- INFO: if this bothers you / your vim starts with more than 2 windows
+				-- please make a pr @ github.com/Yoolayn/nvim-intro
+				-- because I give up, too stupid for it for now
+				local wins = vim.api.nvim_list_wins()
+				local start_win
+
+				for _, win in ipairs(wins) do
+					if win ~= curr_win then
+						start_win = win
+					end
+				end
+
 				vim.fn.clearmatches()
 				vim.api.nvim_win_close(curr_win, false)
-				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
+				vim.api.nvim_win_set_buf(start_win, vim.api.nvim_create_buf(false, M.options.scratch))
 			elseif vim.bo.filetype == "minintro" then
 				vim.fn.clearmatches()
 				vim.api.nvim_win_set_buf(0, vim.api.nvim_create_buf(false, M.options.scratch))
