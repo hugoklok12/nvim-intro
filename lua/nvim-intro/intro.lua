@@ -199,7 +199,7 @@ M.display_minintro = function(payload)
 		end,
 	})
 
-	vim.api.nvim_create_autocmd({ "TextChangedI", "CmdlineLeave" }, {
+	vim.api.nvim_create_autocmd("TextChangedI", {
 		group = intro_autocmd,
 		buffer = minintro_buff,
 		once = true,
