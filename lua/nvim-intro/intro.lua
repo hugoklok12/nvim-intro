@@ -140,6 +140,7 @@ M.display_minintro = function(payload)
 
 	local minintro_buff, intro_win = M.create_and_set_minintro_buf()
 
+	vim.opt_local.list = false
 	vim.opt_local.number = false
 	vim.opt_local.relativenumber = false
 	if M.options.callback ~= nil then
