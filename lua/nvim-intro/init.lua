@@ -1,7 +1,11 @@
 local M = {}
 
 M.setup = function(options)
-	require("nvim-intro.intro").setup(options)
+	if vim.g.neovide then
+		return
+	else
+		require("nvim-intro.intro").setup(options)
+	end
 end
 
 return M
