@@ -15,6 +15,7 @@ local defaults = {
     scratch = false,
     height = 6,
     width = 55,
+    highlights = {},
 }
 
 local M = {}
@@ -67,7 +68,7 @@ M.setup = function(options)
     options = options or {}
     M.options = vim.tbl_deep_extend("force", defaults, options)
     M.options.height = #M.options.intro
-    M.options.widht = vim.fn.strdisplaywidth(M.options.intro[1])
+    M.options.width = vim.fn.strdisplaywidth(M.options.intro[1])
     vim.api.nvim_set_hl(highlight_ns_id, "Minintro", { fg = M.options.color })
     vim.api.nvim_set_hl_ns(highlight_ns_id)
 
